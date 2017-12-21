@@ -1,0 +1,389 @@
+/* -----------------------------------
+ * Slidebars
+ * Version 0.10.3
+ * http://plugins.adchsm.me/slidebars/
+ *
+ * Written by Adam Smith
+ * http://www.adchsm.me/
+ *
+ * Released under MIT License
+ * http://plugins.adchsm.me/slidebars/license.txt
+ *
+ * -------------------
+ * Slidebars CSS Index
+ *
+ * 001 - Box Model, Html & Body
+ * 002 - Site
+ * 003 - Slidebars
+ * 004 - Animation
+ * 005 - Helper Classes
+ *
+ * ----------------------------
+ * 001 - Box Model, Html & Body
+ */
+
+html, body, #main, .site_wrapper, .sb-slidebar {
+	/* Set box model to prevent any user added margins or paddings from altering the widths or heights. */
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	overflow-x: hidden; /* Stops horizontal scrolling. */
+}
+
+html {
+	height: 100%; /* Site is as tall as device. */
+}
+
+body {
+	min-height: 100%;
+	height: auto;
+	position: relative; /* Required for static Slidebars to function properly. */
+}
+
+/* Site scroll locking - prevent site from scrolling when a Slidebar is open, except when static Slidebars are only available. */
+html.sb-scroll-lock.sb-active:not(.sb-static) {
+	overflow: hidden;
+}
+
+
+.rev_slider_wrapper.fullscreen-container{
+	left: 0!important;
+}
+/* ----------
+ * 002 - Site
+ */
+
+#main, .site_wrapper {
+	/* You may now use class .site_wrapper instead of #main and use your own id. However please make sure you don't set any of the following styles any differently on your id. */
+	width: 100%;
+	position: relative;
+	z-index: 1; /* Site sits above Slidebars */
+	background-color: #ffffff; /* Default background colour, overwrite this with your own css. I suggest moving your html or body background styling here. Making this transparent will allow the Slidebars beneath to be visible. */
+}
+
+/* Micro clearfix by Nicolas Gallagher, ensures the site container hits the top and bottom of the screen. */
+#main:before, #main:after, .site_wrapper:before, .site_wrapper:after {
+	content: ' ';
+	display: table;
+}
+
+#main:before, #main:after, .site_wrapper:before, .site_wrapper:after {
+    clear: both;
+}
+
+/* ---------------
+ * 003 - Slidebars
+ */
+
+.sb-slidebar {
+	height: 100%;
+	overflow-y: auto; /* Enable vertical scrolling on Slidebars when needed. */
+	position: fixed;
+	top: 0;
+	z-index: 0; /* Slidebars sit behind sb-site. */
+	display: none; /* Initially hide the Slidebars. Changed from visibility to display to allow -webkit-overflow-scrolling. */
+	background-color: #364150; /* Default Slidebars background colour, overwrite this with your own css. */
+}
+
+.sb-slidebar, .sb-slidebar * {
+	-webkit-transform: translateZ( 0px ); /* Fixes issues with translated and z-indexed elements on iOS 7. */
+}
+
+.sb-left {
+	left: 0; /* Set Slidebar to the left. */
+}
+
+.sb-right {
+	right: 0; /* Set Slidebar to the right. */
+}
+
+html.sb-static .sb-slidebar,
+.sb-slidebar.sb-static {
+	position: absolute; /* Makes Slidebars scroll naturally with the site, and unfixes them for Android Browser < 3 and iOS < 5. */
+}
+
+.sb-slidebar.sb-active {
+	display: block; /* Makes Slidebars visibile when open. Changed from visibility to display to allow -webkit-overflow-scrolling. */
+}
+
+.sb-style-overlay {
+	z-index: 9999; /* Set z-index high to ensure it overlays any other site elements. */
+}
+
+.sb-momentum-scrolling {
+	-webkit-overflow-scrolling: touch; /* Adds native momentum scrolling for iOS & Android devices. */
+}
+
+/* Slidebar widths for browsers/devices that don't support media queries. */
+	.sb-slidebar {
+		width: 30%;
+	}
+	
+	.sb-width-thin {
+		width: 15%;
+	}
+	
+	.sb-width-wide {
+		width: 45%;
+	}
+
+@media (max-width: 480px) { /* Slidebar widths on extra small screens. */
+	.sb-slidebar {
+		width: 70%;
+	}
+	
+	.sb-width-thin {
+		width: 55%;
+	}
+	
+	.sb-width-wide {
+		width: 85%;
+	}
+}
+
+@media (min-width: 481px) { /* Slidebar widths on small screens. */
+	.sb-slidebar {
+		width: 55%;
+	}
+	
+	.sb-width-thin {
+		width: 40%;
+	}
+	
+	.sb-width-wide {
+		width: 70%;
+	}
+}
+
+@media (min-width: 768px) { /* Slidebar widths on medium screens. */
+	.sb-slidebar {
+		width: 50%;
+	}
+	
+	.sb-width-thin {
+		width: 25%;
+	}
+	
+	.sb-width-wide {
+		width: 55%;
+	}
+}
+
+@media (min-width: 992px) { /* Slidebar widths on large screens. */
+	.sb-slidebar {
+		width: 30%;
+	}
+	
+	.sb-width-thin {
+		width: 15%;
+	}
+	
+	.sb-width-wide {
+		width: 45%;
+	}
+}
+
+@media (min-width: 1200px) { /* Slidebar widths on extra large screens. */
+	.sb-slidebar {
+		width: 20%;
+	}
+	
+	.sb-width-thin {
+		width: 5%;
+	}
+	
+	.sb-width-wide {
+		width: 35%;
+	}
+}
+
+/* ---------------
+ * 004 - Animation
+ */
+
+.sb-slide, #main.site_wrapper, .sb-slidebar {
+	
+	-webkit-transition: -webkit-transform 400ms ease;
+	   -moz-transition:    -moz-transform 400ms ease;
+	     -o-transition:      -o-transform 400ms ease;
+	        transition:         transform 400ms ease;
+	
+	-webkit-transition-property: -webkit-transform, left, right; 
+	-webkit-backface-visibility: hidden; 
+}
+
+.sb-slide, .sb-slidebar {
+	-webkit-transform: translate( 0px );
+	   -moz-transform: translate( 0px );
+	     -o-transform: translate( 0px );
+	        transform: translate( 0px );
+}
+
+/* --------------------
+ * 005 - Helper Classes
+ */
+ 
+.sb-hide { 
+	display: none; /* Optionally applied to control classes when Slidebars is disabled over a certain width. */
+}
+
+.sb-slidebar ul.nav{
+	margin: 0;
+	padding: 0;
+}
+
+.sb-slidebar ul.nav > li > a{
+	display: block;
+	padding: 15px;
+	background-color: #2C3542;
+	border-bottom: 1px solid #3d4957;
+	color: #FFF!important;
+}
+
+.sb-slidebar a.social i{
+	color: #FFFFFF;
+}
+
+.sb-slidebar .nav>li>.dropdown-menu>li{
+	
+}
+
+.sb-slidebar .col-xs-1, .sb-slidebar .col-sm-1, .sb-slidebar .col-md-1, .sb-slidebar .col-lg-1, .sb-slidebar .col-xs-2, .sb-slidebar .col-sm-2, .sb-slidebar .col-md-2, .sb-slidebar .col-lg-2, .sb-slidebar .col-xs-3, .sb-slidebar .col-sm-3, .sb-slidebar .col-md-3, .sb-slidebar .col-lg-3, .sb-slidebar .col-xs-4, .sb-slidebar .col-sm-4, .sb-slidebar .col-md-4, .sb-slidebar .col-lg-4, .sb-slidebar .col-xs-5, .sb-slidebar .col-sm-5, .sb-slidebar .col-md-5, .sb-slidebar .col-lg-5, .sb-slidebar .col-xs-6, .sb-slidebar .col-sm-6, .sb-slidebar .col-md-6, .sb-slidebar .col-lg-6, .sb-slidebar .col-xs-7, .sb-slidebar .col-sm-7, .sb-slidebar .col-md-7, .sb-slidebar .col-lg-7, .sb-slidebar .col-xs-8, .sb-slidebar .col-sm-8, .sb-slidebar .col-md-8, .sb-slidebar .col-lg-8, .sb-slidebar .col-xs-9, .sb-slidebar .col-sm-9, .sb-slidebar .col-md-9, .sb-slidebar .col-lg-9, .sb-slidebar .col-xs-10, .sb-slidebar .col-sm-10, .sb-slidebar .col-md-10, .sb-slidebar .col-lg-10, .sb-slidebar .col-xs-11, .sb-slidebar .col-sm-11, .sb-slidebar .col-md-11, .sb-slidebar .col-lg-11, .sb-slidebar .col-xs-12, .sb-slidebar .col-sm-12, .sb-slidebar .col-md-12, .sb-slidebar .col-lg-12{
+	padding: 0;
+	margin: 0;
+}
+
+.sb-slidebar.sb-left .nav .yamm-fw .yamm-content{
+	margin-left: 0!important;
+}
+
+.sb-slidebar ul.nav > li > ul.dropdown-menu li > a, .sb-slidebar ul.nav > li > ul.dropdown-menu li li a{
+	display: block;
+	padding: 10px 15px 10px 30px;
+	border-top: 1px solid #3d4957;
+}
+
+.sb-slidebar ul.nav > li > ul.dropdown-menu li:hover > a, .sb-slidebar ul.nav > li > ul.dropdown-menu li li:hover a{
+	background: #2C3542;
+    color: #b4bcc8;
+}
+
+.sb-slidebar .list-unstyled li:first-child{
+	border: none;
+	margin-bottom: 0;
+}
+
+.sb-slidebar .list-unstyled li p {
+    color: #2ECC71;
+    padding: 10px 15px 10px 30px!important;
+    display: block;
+    line-height: 24px;
+    margin: 0;
+}
+
+.sb-slidebar .dropdown-menu>li>a{
+	padding: 11px 20px 11px 30px !important;
+}
+
+body .sb-slidebar ul.nav > li.buynowbut{
+	padding: 0!important;
+	width: 100%;
+}
+body .sb-slidebar ul.nav > li.buynowbut a{
+	border: none;
+	border-bottom: 1px solid #3d4957;
+	border-radius: 0;
+	padding: 15px;
+}
+
+body .sb-slidebar .list-unstyled > li{
+	padding: 0;
+}
+
+.sb-slidebar .tpbut.minicart-li{
+	float: left;
+	padding: 15px;
+}
+
+.sb-slidebar li.nav-search>a i{
+	float: left;
+	margin-top: 6px!important;
+	margin-right: 10px;
+}
+
+.sb-slidebar .minicart-li a i{
+	margin-right: 20px;
+}
+
+.sb-slidebar .list-unstyled li.dart{
+	padding: 15px;
+    width: calc(100% - 30px);
+    color: #FFF;
+}
+
+.sb-slidebar .container{
+	width: 100%;
+}
+
+.sb-slidebar .dropdown-menu .container > .kc_col-sm-4{
+	border: none;
+}
+
+.sb-slidebar .row{
+	margin-right: 0;
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.sb-slidebar .nav_has_cart ul.nav>li>a{
+	padding: 15px;
+}
+
+.sb-slidebar .tpbut.minicart-li a {
+    color: #ffffff;
+}
+
+.sb-slidebar nav.nav_has_cart {
+    width: 100%;
+}
+
+.sb-slidebar .dropdown-menu .container > .kc_col-sm-4{
+    width: 100%
+}
+
+.sb-slidebar nav .menu-main-menu-container{
+	width: 100%;
+}
+.sb-slidebar nav .nav-button{
+	margin-left: 15px;
+}
+
+.sb-slidebar #menu-onepage + ul{
+	margin: 10px 15px;
+}
+.sb-slidebar #menu-onepage + ul li{
+	float: left;
+	margin-right: 15px;
+}
+.sb-slidebar #menu-onepage + ul li a:hover{
+	color: #FFFFFF;
+}
+
+@media only screen and (max-width: 999px) {
+	.sb-toggle-right{
+		right: 20px;
+		left: auto!important;
+	}
+
+	.sb-slidebar .dropdown-menu .kc_row > .kc_col-sm-4{
+		width: 100%;
+		margin-right: 0;
+		border-right: none;
+	}
+}
